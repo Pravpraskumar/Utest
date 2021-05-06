@@ -1,3 +1,3 @@
 SET ORACLE_SID=SDBFT
 
-SQLPLUS/NOLOG @UT_setup.sql
+SQLPLUS/NOLOG @setup.sql
