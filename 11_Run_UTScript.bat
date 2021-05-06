@@ -5,15 +5,13 @@ SET BIR=%NEW_BIRBUILD%--2
 
 IF EXIST %CD%\report.html (DEL /f %CurDir%\report.html) ELSE (Echo Report Not Found)
 
-Set /p Codedir=%CD%
-
-echo %Codedir%
-
 CD UnitTestRunner
 
 Call setup.bat
 
-CD /d C:\Softwares_Required\07_UnitTestSoftware
+CD..
+
+ROBOCOPY C:\Softwares_Required\07_UnitTestSoftware\utPLSQL-cli .\utPLSQL-cli /e /NP /NFL /IS /IT
 
 Set PATH="C:\Program Files\Java\jre1.8.0_221\bin"
 
@@ -26,8 +24,6 @@ ECHO %ERRORLEVEL%
 SET JAVA_HOME=C:\Program Files\Java\jdk1.8.0_221
 
 SET PATH=%JAVA_HOME%\bin;%PATH%
-
-CD %Codedir%
 
 CD REPORT_GEN
 
