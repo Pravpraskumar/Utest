@@ -1,5 +1,4 @@
-CONN m_sys/managerqa@sdbftauto.world
-
+CONN m_sys/managerqa@au101sp
 @M_SYS\01_WP_PCK_GLOBALS.sql
 /
 @GRANT_MSYS_WP.sql
