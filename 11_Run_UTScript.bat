@@ -5,11 +5,11 @@ SET BIR=%NEW_BIRBUILD%--2
 
 IF EXIST %CD%\report.html (DEL /f %CurDir%\report.html) ELSE (Echo Report Not Found)
 
+Set Codedir = %CD%
+
 CD UnitTestRunner
 
 Call UT_setup.bat
-
-Set Codedir = %CD%
 
 CD C:\Softwares_Required\07_UnitTestSoftware
 
