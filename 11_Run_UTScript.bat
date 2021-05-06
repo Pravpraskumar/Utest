@@ -5,7 +5,7 @@ SET BIR=%NEW_BIRBUILD%--2
 
 IF EXIST %CD%\report.html (DEL /f %CurDir%\report.html) ELSE (Echo Report Not Found)
 
-Set /p Codedir = %CD%
+Set /p Codedir=%CD%
 
 echo %Codedir%
 
