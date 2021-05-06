@@ -3,7 +3,7 @@ ECHO ON
 SET DB=%NEW_DBBUILD%--1
 SET BIR=%NEW_BIRBUILD%--2
 
-IF EXIST %CD%\report.html (DEL /f %CurDir%\report.html) ELSE (Echo Report Not Found)
+IF EXIST %CD%\Report_Gen\report.html (DEL /f %CurDir%\Report_Gen\report.html) ELSE (Echo Report Not Found)
 
 CD UnitTestRunner
 
