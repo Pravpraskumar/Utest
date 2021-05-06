@@ -1,22 +1,13 @@
 ECHO ON
-SET CurDir=C:\Utest
 
 SET DB=%NEW_DBBUILD%
 SET BIR=%NEW_BIRBUILD%
 
-IF EXIST %CurDir%\report.html (DEL /f %CurDir%\report.html) ELSE (Echo Report Not Found)
+IF EXIST %CD%\report.html (DEL /f %CurDir%\report.html) ELSE (Echo Report Not Found)
 
-CD %CurDir%\UT_Packages
+CD UnitTestRunner
 
 Call UT_setup.bat
-
-CD..
-
-CD utPLSQL\source
-
-SQLPLUS SYS/Manager1!@IQA101ASDB.WORLD as sysdba @install_headless.sql
-
-CD..
 
 CD..
 
