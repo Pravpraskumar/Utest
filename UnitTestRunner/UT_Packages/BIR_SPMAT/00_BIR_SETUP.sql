@@ -1,0 +1,9 @@
+SHOW USER;
+/
+HOST CD
+/
+@BIR_SPMAT/ALL_PKG_SPEC.sql;
+/
+@BIR_SPMAT/ALL_PKG_BODY.sql;
+/
+exit
