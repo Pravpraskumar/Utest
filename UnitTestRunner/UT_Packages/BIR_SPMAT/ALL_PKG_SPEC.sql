@@ -244,7 +244,7 @@ create or replace PACKAGE             "WT_MAT_ADM1" AS
     || *******************************************************************************************
 */
 
---%suite(Create Product Group)
+--%suite(WF-1: Create Product Group)
 --%suitepath(WF_ADMIN_APEX1)
 --%rollback(manual)
 
@@ -297,6 +297,35 @@ end WP_USERS_CUD;
 /
 SHOW ERROR
 
+PROMPT Creating Package 'WP_ROLES_CUD'
+
+create or replace PACKAGE             "WP_ROLES_CUD" IS
+
+/*
+    || *******************************************************************************************
+    || Author:  Christoph Hegerath (CH)
+    ||
+    || Purpose: Workflow package for Roles
+    ||
+    || Change history:
+    ||
+    || Ver          When           Who          What
+    || -------      -----------    ---------    --------------------------------------------------
+    || 10.1.0.0     07-Jan-2020    Christoph    Initial version created
+    || 10.1.0.0     16-Mar-2020    Praveen      Updated Package to Support Workflow tests
+    || *******************************************************************************************
+*/
+
+
+   PROCEDURE ROLES_SCREEN_WORKFLOWS;
+   
+   PROCEDURE ROLES_SCREEN_WORKFLOWS1;
+
+
+END "WP_ROLES_CUD";
+/
+SHOW ERROR
+
 PROMPT Creating Package 'WT_MAT_ADM2'
 
 create or replace PACKAGE             "WT_MAT_ADM2" AS
@@ -315,7 +344,7 @@ create or replace PACKAGE             "WT_MAT_ADM2" AS
     || *******************************************************************************************
 */
 
---%suite(Create User and Assign User Security)
+--%suite(WF-2: Create User and Assign User Security)
 --%suitepath(WF_ADMIN_APEX2)
 --%rollback(manual)
 
@@ -326,6 +355,13 @@ create or replace PACKAGE             "WT_MAT_ADM2" AS
 
 --%test(Users Screen Workflows)
     PROCEDURE USERS_WF;
+
+--%test(Roles Screen Workflows)
+    PROCEDURE ROLES_WF;
+    
+--%test(Roles Screen Workflows-1)
+    PROCEDURE MAP_MENUS_TO_ROLES_WF;
+
 
 
 end WT_MAT_ADM2;
