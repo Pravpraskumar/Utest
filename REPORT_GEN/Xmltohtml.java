@@ -22,9 +22,9 @@ public class Xmltohtml {
  
    Source xslDoc = new StreamSource("./ss.xsl");
  
-   Source xmlDoc = new StreamSource("../junit_test_results.xml");
+   Source xmlDoc = new StreamSource("./junit_test_results.xml");
  
-   String outputFileName = "../report.html";
+   String outputFileName = "./report.html";
  
    OutputStream htmlFile = new FileOutputStream(outputFileName);
  
