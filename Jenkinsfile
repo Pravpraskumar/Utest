@@ -10,7 +10,7 @@ pipeline {
       }
       post {
         always {
-          emailext(to: 'PraveenKumar.Kuppili@Hexagon.com', subject: 'Unit Test Workflow Results', body: '${FILE, path="C:/Utest/FinalRepo.html"}', mimeType: 'text/html')
+          emailext(to: 'PraveenKumar.Kuppili@Hexagon.com', subject: 'Unit Test Workflow Results', body: '${FILE, path="${WORKSPACE}/Report_Gen/FinalRepo.html"}', mimeType: 'text/html')
         }
 
       }
