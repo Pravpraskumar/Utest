@@ -9,7 +9,7 @@ Set Codedir = %CD%
 
 CD UnitTestRunner
 
-Call UT_setup.bat
+Call setup.bat
 
 CD C:\Softwares_Required\07_UnitTestSoftware
 
@@ -25,7 +25,7 @@ SET JAVA_HOME=C:\Program Files\Java\jdk1.8.0_221
 
 SET PATH=%JAVA_HOME%\bin;%PATH%
 
-CD Codedir
+CD %Codedir%
 
 CD REPORT_GEN
 
