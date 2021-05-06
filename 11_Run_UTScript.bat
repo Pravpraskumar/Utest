@@ -7,11 +7,13 @@ IF EXIST %CD%\report.html (DEL /f %CurDir%\report.html) ELSE (Echo Report Not Fo
 
 Set Codedir = %CD%
 
+echo %Codedir%
+
 CD UnitTestRunner
 
 Call setup.bat
 
-CD C:\Softwares_Required\07_UnitTestSoftware
+CD /d C:\Softwares_Required\07_UnitTestSoftware
 
 Set PATH="C:\Program Files\Java\jre1.8.0_221\bin"
 
