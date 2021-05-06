@@ -17,7 +17,7 @@ Set PATH="C:\Program Files\Java\jre1.8.0_221\bin"
 
 echo "PATH is:" %PATH%
 
-start /wait cmd.exe /c utPLSQL-cli\bin\utplsql run bir_spmat/managerqa@inmat101sp:1521/sdbft -D -c -f=ut_junit_reporter -o=junit_test_results.xml -f=ut_documentation_reporter -o=run.txt
+start /wait cmd.exe /c utPLSQL-cli\bin\utplsql run bir_spmat/managerqa@//inmat101sp:1521/sdbft -D -c -f=ut_junit_reporter -o=junit_test_results.xml -f=ut_documentation_reporter -o=run.txt
 
 ECHO %ERRORLEVEL%
 
