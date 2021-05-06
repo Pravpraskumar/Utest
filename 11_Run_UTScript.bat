@@ -1,7 +1,7 @@
 ECHO ON
 
-SET DB=%NEW_DBBUILD%
-SET BIR=%NEW_BIRBUILD%
+SET DB=%NEW_DBBUILD%--1
+SET BIR=%NEW_BIRBUILD%--2
 
 IF EXIST %CD%\report.html (DEL /f %CurDir%\report.html) ELSE (Echo Report Not Found)
 
