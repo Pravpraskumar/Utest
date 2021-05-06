@@ -4,7 +4,7 @@ pipeline {
     stage('04#Run Unit Tests') {
       agent {
         node {
-          label 'master'
+          label 'inmat101sp'
         }
 
       }
