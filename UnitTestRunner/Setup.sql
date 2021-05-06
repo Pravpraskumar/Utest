@@ -1,8 +1,8 @@
 CONN m_sys/managerqa@au101sp
-@M_SYS\01_WP_PCK_GLOBALS.sql
+@UT_Packages\M_SYS\01_WP_PCK_GLOBALS.sql
 /
-@GRANT_MSYS_WP.sql
+@UT_Packages\GRANT_MSYS_WP.sql
 /
-CONN BIR_SPMAT/manager@sdbftauto.world
+CONN BIR_SPMAT/manager@au101sp
 
-@BIR_SPMAT\00_BIR_SETUP.sql
+@UT_Packages\BIR_SPMAT\00_BIR_SETUP.sql
