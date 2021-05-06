@@ -67,7 +67,7 @@ create or replace PACKAGE BODY WP_LOGIN AS
             APEX_CUSTOM_AUTH.DEFINE_USER_SESSION(P_USERNAME,L_SESSION);
         END;
 
-        -- Do the Login Steps 1 (Reference to APEX Documentation)
+        -- Do the Login Steps 1&2 (Reference to APEX Documentation)
         -- Cover some exceptions from the Interal framework issues
         BEGIN
             APEX_CUSTOM_AUTH.LOGIN( P_UNAME     => P_USERNAME,
@@ -938,6 +938,117 @@ END WP_USERS_CUD;
 
 SHOW ERROR
 
+PROMPT Creating Package Body 'WP_ROLES_CUD'
+
+create or replace PACKAGE BODY             "WP_ROLES_CUD" IS
+
+GC_ROLE_ID M_SYS.M_APPL_ROLES.ROLE_ID%TYPE;
+
+   PROCEDURE INSERT_ROLES(P_NLS_ID      IN M_SYS.M_NLS.NLS_ID%TYPE,
+                          P_ROLE_NAME   IN M_SYS.M_APPL_ROLES.ROLE_NAME%TYPE,
+                          P_DESCRIPTION IN M_SYS.M_APPL_ROLE_NLS.DESCRIPTION%TYPE,
+                          P_PROMPT_ROLE VARCHAR2)
+    IS    
+    L_ACTUAL_NLS_ID       M_SYS.M_NLS.NLS_ID%TYPE;
+    L_ACTUAL_ROLE_NAME    M_SYS.M_APPL_ROLES.ROLE_NAME%TYPE;
+    L_ACTUAL_DESCRIPTION  M_SYS.M_APPL_ROLE_NLS.DESCRIPTION%TYPE;
+    L_ACTUAL_PROMPT_ROLE  VARCHAR2(255);
+
+    BEGIN
+      --Act
+      GC_ROLE_ID:=ADM_P400820.INSERT_ROLES(P_NLS_ID, P_ROLE_NAME, P_DESCRIPTION, P_PROMPT_ROLE);
+
+      -- Get Actuals
+
+      SELECT NLS_ID      INTO L_ACTUAL_NLS_ID      FROM  M_SYS.M_APPL_ROLE_NLS WHERE ROLE_ID=GC_ROLE_ID;
+      SELECT ROLE_NAME   INTO L_ACTUAL_ROLE_NAME   FROM  M_SYS.M_APPL_ROLES    WHERE ROLE_ID=GC_ROLE_ID;
+      SELECT DESCRIPTION INTO L_ACTUAL_DESCRIPTION FROM  M_SYS.M_APPL_ROLE_NLS WHERE ROLE_ID=GC_ROLE_ID;
+
+      -- Assert
+      DBMS_OUTPUT.PUT_LINE('Role '||P_ROLE_NAME||' Created');
+      UT.EXPECT(L_ACTUAL_NLS_ID).TO_EQUAL(P_NLS_ID);
+      UT.EXPECT(L_ACTUAL_ROLE_NAME).TO_EQUAL(P_ROLE_NAME);
+      UT.EXPECT(L_ACTUAL_DESCRIPTION).TO_EQUAL(P_DESCRIPTION);
+      
+   END INSERT_ROLES;
+
+   PROCEDURE ASSIGN_SINGLE_MENU(P_ROLE_ID              IN M_SYS.M_APPL_ROLES_MENUS.ROLE_ID%TYPE,
+                                P_MENUITEM_CODE        IN M_SYS.M_APPL_MENUS.MENUITEM_CODE%TYPE,
+                                P_QUERY_ONLY_IND       IN M_SYS.M_APPL_ROLES_MENUS.QUERY_ONLY_IND%TYPE,
+                                P_DEACT_IND            IN M_SYS.M_APPL_ROLES_MENUS.DEACT_IND%TYPE ,
+                                P_NO_CONFIG_CHANGE_IND IN M_SYS.M_APPL_ROLES_MENUS.NO_CONFIG_CHANGE_IND%TYPE ,
+                                P_PROMPT_MENU          IN VARCHAR2,
+                                P_NLS_ID               IN M_SYS.M_NLS.NLS_ID%TYPE)
+    IS
+    RETURN_ROWID VARCHAR2(50 CHAR);
+    BEGIN
+    RETURN_ROWID := ADM_P400820.INSERT_ROLES_MENUS(P_ROLE_ID,P_MENUITEM_CODE,P_QUERY_ONLY_IND,P_DEACT_IND,
+                                       P_NO_CONFIG_CHANGE_IND,P_PROMPT_MENU,P_NLS_ID);
+    
+    --UT.EXPECT(RETURN_ROWID).TO_BE_NOT_NULL;
+    
+    END ASSIGN_SINGLE_MENU;
+    
+    
+    PROCEDURE ASSIGN_MENUS(P_ROLE_ID IN M_SYS.M_APPL_ROLES_MENUS.ROLE_ID%TYPE,
+                           P_NLS_ID               IN M_SYS.M_NLS.NLS_ID%TYPE)
+    IS
+    L_EXPECTED NUMBER;
+    L_ACTUAL   NUMBER;
+    P_ROLE_NAME  M_SYS.M_APPL_ROLES.ROLE_NAME%TYPE;
+    CURSOR T_CURSOR IS SELECT MENUITEM_CODE FROM M_SYS.M_APPL_MENUS WHERE MENU_TYPE='BI_REPORT';
+    BEGIN
+    SELECT ROLE_NAME   INTO P_ROLE_NAME FROM  M_SYS.M_APPL_ROLES    WHERE ROLE_ID=GC_ROLE_ID;
+    SELECT COUNT(*) INTO L_EXPECTED FROM M_APPL_MENUS WHERE MENU_TYPE='BI_REPORT';
+    --DBMS_OUTPUT.PUT_LINE(L_EXPECTED||' no of Menus');
+    
+    FOR EACHMENU IN T_CURSOR 
+    LOOP
+    ASSIGN_SINGLE_MENU(P_ROLE_ID,EACHMENU.MENUITEM_CODE,'N','N','N',EACHMENU.MENUITEM_CODE,P_NLS_ID);
+    END LOOP;
+    
+    SELECT COUNT(*) INTO L_ACTUAL FROM M_APPL_ROLES_MENUS WHERE ROLE_ID = P_ROLE_ID;
+    DBMS_OUTPUT.PUT_LINE('Role '||P_ROLE_NAME||' Is Assigned with '||L_ACTUAL||' no of Menus');
+    UT.EXPECT(L_EXPECTED).TO_EQUAL(L_ACTUAL);
+    
+    END;
+    
+   
+  /* -- test insert_roles_menus case 1: ...
+   --
+   PROCEDURE ut_insert_roles_menus IS
+        l_from_role_id             m_sys.m_appl_roles_menus.role_id%TYPE                :=5140;  --Super User Role ID
+
+   BEGIN
+      -- populate actual
+      adm_p400822.copy_role_data(l_from_role_id, g_role_id);
+
+   END ut_insert_roles_menus;*/
+
+   PROCEDURE ROLES_SCREEN_WORKFLOWS
+   IS
+   V_NLS      M_SYS.M_NLS.NLS_ID%TYPE := WP_LANGUAGES_CUD.GCR_NUMBER;
+   BEGIN
+   --Arrange
+   --Add New Role
+   INSERT_ROLES(V_NLS,'ROLE-'||V_NLS, 'NEWROLE-'||V_NLS,'ROLE NAME');
+   
+   END;
+   
+   PROCEDURE ROLES_SCREEN_WORKFLOWS1
+   IS
+   V_NLS      M_SYS.M_NLS.NLS_ID%TYPE := WP_LANGUAGES_CUD.GCR_NUMBER;
+   BEGIN
+   --Arrange
+   --Add Menus to Roles
+   ASSIGN_MENUS(GC_ROLE_ID,V_NLS);
+   
+   END;
+
+END WP_ROLES_CUD;
+/
+SHOW ERROR 
+
 PROMPT Creating Package body 'WT_MAT_ADM2'
 
 create or replace PACKAGE BODY             "WT_MAT_ADM2" AS
@@ -969,6 +1080,19 @@ create or replace PACKAGE BODY             "WT_MAT_ADM2" AS
     BEGIN
         WP_USERS_CUD.USER_SCREEN_WORKFLOWS;
     END;
+	
+	PROCEDURE ROLES_WF
+    IS
+    BEGIN
+        WP_ROLES_CUD.ROLES_SCREEN_WORKFLOWS;
+    END;
+
+    PROCEDURE MAP_MENUS_TO_ROLES_WF
+    IS
+    BEGIN
+        WP_ROLES_CUD.ROLES_SCREEN_WORKFLOWS1;
+    END;
+
 
 
 
