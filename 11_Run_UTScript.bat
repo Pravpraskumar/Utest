@@ -31,6 +31,8 @@ JAVAC Xmltohtml.java
 
 JAVA Xmltohtml
 
+JAVAC GetFinalrepo.java
+
 JAVA GetFinalrepo %DB% %BIR%
 
 IF %ERRORLEVEL% EQU 1 EXIT 0
