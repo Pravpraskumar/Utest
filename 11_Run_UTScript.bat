@@ -11,7 +11,7 @@ Call UT_setup.bat
 
 CD..
 
-Set PATH="C:\Program Files\Java\jre1.8.0_202\bin"
+Set PATH="C:\Program Files\Java\jre1.8.0_221\bin"
 
 echo "PATH is:" %PATH%
 
