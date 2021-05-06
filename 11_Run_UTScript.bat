@@ -29,6 +29,8 @@ CD Codedir
 
 CD REPORT_GEN
 
+JAVAC Xmltohtml.java
+
 JAVA Xmltohtml
 
 JAVA GetFinalrepo %DB% %BIR%
