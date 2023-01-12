@@ -8,12 +8,12 @@ pipeline {
         }
 
       }
-      post {
+      /*post {
         always {
           emailext(to: 'PraveenKumar.Kuppili@Hexagon.com', subject: 'Unit Test Workflow Results', body: '${FILE, path="'+"${env.WORKSPACE}"+'\\Report_Gen\\FinalRepo.html"}', mimeType: 'text/html')
         }
 
-      }
+      }*/
       steps {
         catchError(buildResult: 'success', message: 'Failed Unit tests Step', stageResult: 'failure') {
           echo 'Add Unit Tests'
